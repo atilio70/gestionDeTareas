@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar tarea</title>
+</head>
+<body>
+    <h1>Editar Tarea</h1>
+    <form action="/tasks/update/{{.ID}}" method="POST">
+        <label for="titulo">Título:</label>
+        <input type="text" id="titulo" name="titulo" value="{{.Titulo}}" required><br><br>
+
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" name="descripcion" required>{{.Descripcion}}</textarea><br><br>
+
+        <label for="estado">Estado:</label>
+        <select name="estado" id="estado">
+            <option value="pendiente" {{if eq .Estado "pendiente"}}selected{{end}}>Pendiente</option>
+            <option value="completada" {{if eq .Estado "completada"}}selected{{end}}>Completada</option>
+        </select><br><br>
+
+        <button type="submit">Actualizar tarea</button>
+    </form>
+
+    <br>
+    <a href="/">Volver a la lista de tareas</a>
+</body>
+</html>
