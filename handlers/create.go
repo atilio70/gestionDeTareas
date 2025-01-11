@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"net/http"
-	"taskmanager/db"
+	"task-manager-api/db"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,7 +14,7 @@ func CreateFormHandler(c *gin.Context) {
 func CreateHandler(c *gin.Context) {
 	titulo := c.PostForm("titulo")
 	descripcion := c.PostForm("descripcion")
-	estado := PostForm("estado")
+	estado := c.PostForm("estado")
 
 	_, err := db.DB.Exec("INSERT INTO tareas (titulo, descripcion, estado) VALUES (?, ?, ?)", titulo, descripcion, estado)
 	if err != nil {

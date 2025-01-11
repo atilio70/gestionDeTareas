@@ -10,7 +10,7 @@ import (
 
 var DB *sql.DB
 
-//InitDB inicia la conexion con la base de datos y crea la tabla si no existe
+// InitDB inicia la conexion con la base de datos y crea la tabla si no existe
 func InitDB() {
 	user := "root"
 	password := "lasetenta"
@@ -24,8 +24,8 @@ func InitDB() {
 		log.Fatal("Error al conectar con la base de datos:", err)
 	}
 
-	if err := DB.Ping(), err != nil {
-		log.fatal("Error al verificar la conexión con la base de datos", err)
+	if err := DB.Ping(); err != nil {
+		log.Fatal("Error al verificar la conexión con la base de datos", err)
 	}
 
 	crearTabla := `
@@ -38,7 +38,7 @@ func InitDB() {
 		);
 	`
 
-	if _, err := DB.Exec(crearTabla): err != nil {
+	if _, err := DB.Exec(crearTabla); err != nil {
 		log.Fatal("Error al crear la tabla", err)
 	}
 }
