@@ -6,6 +6,7 @@
     <title>Lista de Tareas</title>
 </head>
 <body>
+    {{ define "content" }}
     <h1>Lista de Tareas</h1>
     <ul>
         {{range .tareas}}
@@ -22,10 +23,7 @@
                 <button type="submit" style="color:red;">Eliminar</button>
             </form>
         </li>
-        {{end}}
     </ul>
-
-    <br>
-    <a href="/tasks/create">Crear nueva tarea</a>
+    {{end}}
 </body>
 </html>
