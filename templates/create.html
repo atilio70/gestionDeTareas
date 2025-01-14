@@ -1,30 +1,54 @@
+{{ define "create.html" }}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Crear Tarea</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .Title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            background-color: #333;
+            padding: 1em;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 1em;
+        }
+    </style>
 </head>
 <body>
-    {{ define "content" }}
-    <h1>Crear Nueva Tarea</h1>
-    <form action="/tasks/create" method="POST">
-        <label for="titulo">Título:</label>
-        <input type="text" id="titulo" name="titulo" required>
-        <br><br>
-
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" name="descripcion" required></textarea>
-        <br><br>
-
-        <label for="estado">Estado:</label>
-        <select id="estado" name="estado" required>
-            <option value="pendiente">Pendiente</option>
-            <option value="completada">Completada</option>
-        </select>
-        <br><br>
-
-        <button type="submit">Crear Tarea</button>
-    </form>
-    {{end}}
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/tasks/create">Crear Tarea</a>
+    </nav>
+    <div class="content">
+        <h1>Crear Nueva Tarea</h1>
+        <form action="/tasks/create" method="POST">
+            <div>
+                <label for="titulo">Título:</label><br>
+                <input type="text" id="titulo" name="titulo" required>
+            </div>
+            <div>
+                <label for="descripcion">Descripción:</label><br>
+                <textarea id="descripcion" name="descripcion" required></textarea>
+            </div>
+            <div>
+                <label for="estado">Estado:</label><br>
+                <select id="estado" name="estado" required>
+                    <option value="pendiente">Pendiente</option>
+                    <option value="en_progreso">En Progreso</option>
+                    <option value="completada">Completada</option>
+                </select>
+            </div>
+            <button type="submit">Crear Tarea</button>
+        </form>
+    </div>
 </body>
 </html>
+{{ end }}

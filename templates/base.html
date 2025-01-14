@@ -1,44 +1,35 @@
+{{ define "base" }}
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>"Api de Ati"</title>
+    <title>{{ .Title }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
-        nav{
+        nav {
             background-color: #333;
             padding: 1em;
         }
         nav a {
             color: white;
-            margin: 0 10px;
             text-decoration: none;
-        }
-
-        nav a:hover {
-            text-decoration: underline;
-        }
-        .container {
-            padding: 20px
+            margin-right: 1em;
         }
     </style>
 </head>
 <body>
-    <!--  Navbar  -->>
     <nav>
-    <a href="/">Inicio</a>
-    <a href="/tasks/create">Crear Tarea</a>
+        <a href="/">Inicio</a>
+        <a href="/tasks/create">Crear Tarea</a>
     </nav>
-
-    <!--  Main content  -->
-    <div class="container">
-        {{ block "content" . }}{{ end }}
+    <div class="content">
+        {{ template "content" . }}
     </div>
 </body>
 </html>
+{{ end }}

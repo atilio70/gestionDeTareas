@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"task-manager-api/db"
@@ -17,9 +18,8 @@ type Tarea struct {
 	FechaCreacion time.Time
 }
 
-//IndexHandler maneja la pagina principal y muestra todas las tareas
-
 func IndexHandler(c *gin.Context) {
+	fmt.Println("IndexHandler llamado")
 	rows, err := db.DB.Query("SELECT id, titulo, descripcion, estado, fecha_creacion FROM tareas")
 	if err != nil {
 		log.Printf("Error al ejecutar la consulta: %v", err)
@@ -39,11 +39,15 @@ func IndexHandler(c *gin.Context) {
 			return
 		}
 
-		fecha, err := time.Parse("5006-01-02 15:04:05", string(fechaCreacion))
+		fecha, err := time.Parse("2006-01-02 15:04:05", string(fechaCreacion))
 		if err == nil {
 			tarea.FechaCreacion = fecha
 		}
 		tareas = append(tareas, tarea)
 	}
-	c.HTML(http.StatusOK, "index.html", gin.H{"tareas": tareas})
+	fmt.Println("Tareas obtenidas:", tareas)
+	c.HTML(http.StatusOK, "base", gin.H{
+		"Title":  "Gestor de Tareas",
+		"tareas": tareas,
+	})
 }

@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"task-manager-api/db"
 
@@ -8,7 +9,10 @@ import (
 )
 
 func CreateFormHandler(c *gin.Context) {
-	c.HTML(http.StatusOK, "create.html", nil)
+	fmt.Println("Renderizando formulario de creación") // Debug
+	c.HTML(http.StatusOK, "create.html", gin.H{
+		"Title": "Crear Nueva Tarea",
+	})
 }
 
 func CreateHandler(c *gin.Context) {
