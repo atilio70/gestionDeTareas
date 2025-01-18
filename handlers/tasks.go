@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"task-manager-api/db"
@@ -19,11 +18,14 @@ type Tarea struct {
 }
 
 func IndexHandler(c *gin.Context) {
-	fmt.Println("IndexHandler llamado")
 	rows, err := db.DB.Query("SELECT id, titulo, descripcion, estado, fecha_creacion FROM tareas")
 	if err != nil {
 		log.Printf("Error al ejecutar la consulta: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "No se pudieron obtener las tareas"})
+		c.HTML(http.StatusInternalServerError, "base.html", gin.H{
+			"Title":    "Error",
+			"Template": "index",
+			"Error":    "No se pudieron obtener las tareas",
+		})
 		return
 	}
 	defer rows.Close()
@@ -32,22 +34,17 @@ func IndexHandler(c *gin.Context) {
 	for rows.Next() {
 		var tarea Tarea
 		var fechaCreacion []byte
-
 		if err := rows.Scan(&tarea.ID, &tarea.Titulo, &tarea.Descripcion, &tarea.Estado, &fechaCreacion); err != nil {
-			log.Printf("Error al procesar las filas: %v", err)
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error al procesar las tareas"})
-			return
+			log.Printf("Error al escanear tarea: %v", err)
+			continue
 		}
-
-		fecha, err := time.Parse("2006-01-02 15:04:05", string(fechaCreacion))
-		if err == nil {
-			tarea.FechaCreacion = fecha
-		}
+		tarea.FechaCreacion, _ = time.Parse("2006-01-02", string(fechaCreacion))
 		tareas = append(tareas, tarea)
 	}
-	fmt.Println("Tareas obtenidas:", tareas)
-	c.HTML(http.StatusOK, "base", gin.H{
-		"Title":  "Gestor de Tareas",
-		"tareas": tareas,
+
+	c.HTML(http.StatusOK, "base.html", gin.H{
+		"Title":    "Lista de Tareas",
+		"Template": "index",
+		"Tareas":   tareas, // Asegúrate de que este nombre coincida con el template
 	})
 }

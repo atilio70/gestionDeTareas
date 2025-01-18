@@ -1,54 +1,43 @@
-{{ define "create.html" }}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ .Title }}</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        nav {
-            background-color: #333;
-            padding: 1em;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-right: 1em;
-        }
-    </style>
-</head>
-<body>
-    <nav>
-        <a href="/">Inicio</a>
-        <a href="/tasks/create">Crear Tarea</a>
-    </nav>
-    <div class="content">
-        <h1>Crear Nueva Tarea</h1>
-        <form action="/tasks/create" method="POST">
-            <div>
-                <label for="titulo">Título:</label><br>
-                <input type="text" id="titulo" name="titulo" required>
+{{define "create-content"}}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="h4 mb-0"><i class="fas fa-plus-circle me-2"></i>Crear Nueva Tarea</h1>
+                </div>
+                <div class="card-body p-4">
+                    <form action="/tasks/create" method="POST">
+                        <div class="mb-4">
+                            <label for="titulo" class="form-label fw-bold"><i class="fas fa-heading me-2"></i>Título:</label>
+                            <input type="text" class="form-control form-control-lg" id="titulo" name="titulo" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="descripcion" class="form-label fw-bold"><i class="fas fa-align-left me-2"></i>Descripción:</label>
+                            <textarea class="form-control" id="descripcion" name="descripcion" rows="4" required></textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="estado" class="form-label fw-bold"><i class="fas fa-tasks me-2"></i>Estado:</label>
+                            <select name="estado" id="estado" class="form-select form-select-lg">
+                                <option value="pendiente">⏳ Pendiente</option>
+                                <option value="completada">✅ Completada</option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid gap-3">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-save me-2"></i>Crear tarea
+                            </button>
+                            <a href="/" class="btn btn-secondary btn-lg">
+                                <i class="fas fa-arrow-left me-2"></i>Volver a la lista
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div>
-                <label for="descripcion">Descripción:</label><br>
-                <textarea id="descripcion" name="descripcion" required></textarea>
-            </div>
-            <div>
-                <label for="estado">Estado:</label><br>
-                <select id="estado" name="estado" required>
-                    <option value="pendiente">Pendiente</option>
-                    <option value="en_progreso">En Progreso</option>
-                    <option value="completada">Completada</option>
-                </select>
-            </div>
-            <button type="submit">Crear Tarea</button>
-        </form>
+        </div>
     </div>
-</body>
-</html>
-{{ end }}
+</div>
+{{end}}

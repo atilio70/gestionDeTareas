@@ -16,6 +16,8 @@ func main() {
 	// Crear una nueva instancia del router de Gin
 	r := gin.Default()
 
+	r.LoadHTMLGlob("templates/*")
+
 	// Configurar el modo de Gin para debug
 	gin.SetMode(gin.DebugMode)
 

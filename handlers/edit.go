@@ -17,16 +17,21 @@ func EditFormHandler(c *gin.Context) {
 		return
 	}
 
-	c.HTML(http.StatusOK, "edit.html", tarea)
+	c.HTML(http.StatusOK, "base.html", gin.H{
+		"Title":    "Editar tarea",
+		"Template": "edit",
+		"Tarea":    tarea, // Pasar la tarea al template
+	})
 }
 
 func UpdateHandler(c *gin.Context) {
 	id := c.Param("id")
-	titulo := c.Param("titulo")
-	descripcion := c.Param("descripcion")
-	estado := c.Param("estado")
+	titulo := c.PostForm("titulo") // Cambiar Param por PostForm
+	descripcion := c.PostForm("descripcion")
+	estado := c.PostForm("estado")
 
-	_, err := db.DB.Exec("UPDATE tareas SET titulo = ?, descripcion = ?, estado = ? WHERE id = ?", titulo, descripcion, estado, id)
+	_, err := db.DB.Exec("UPDATE tareas SET titulo = ?, descripcion = ?, estado = ? WHERE id = ?",
+		titulo, descripcion, estado, id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error al actualizar la tarea"})
 		return

@@ -1,18 +1,52 @@
-{{ define "content" }}
-<h1>Lista de Tareas</h1>
-<ul>
-    {{range .tareas}}
-    <li>
-        <strong>{{.Titulo}}</strong> - {{.Estado}}<br>
-        <small>{{.FechaCreacion.Format "02/01/2006 15:04"}}</small><br>
-        <a href="/tasks/edit/{{.ID}}">Editar</a> | 
-        <form action="/tasks/delete/{{.ID}}" method="POST" style="display:inline;">
-            <button type="submit" style="color:red;">Eliminar</button>
-        </form>
-    </li>
+{{define "index-content"}}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-5 fw-bold"><i class="fas fa-tasks me-2"></i>Lista de Tareas</h1>
+        <a href="/tasks/create" class="btn btn-primary"><i class="fas fa-plus me-2"></i>Nueva Tarea</a>
+    </div>
+    
+    {{range .Tareas}}
+    <div class="card mb-3 border-0">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h5 class="card-title fw-bold">{{.Titulo}}</h5>
+                    <p class="card-text text-muted">{{.Descripcion}}</p>
+                </div>
+                <span class="badge bg-{{if eq .Estado "completada"}}success{{else}}warning{{end}} rounded-pill">
+                    <i class="fas {{if eq .Estado "completada"}}fa-check-circle{{else}}fa-clock{{end}} me-1"></i>
+                    {{.Estado}}
+                </span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <small class="text-muted">
+                    <i class="far fa-calendar-alt me-1"></i>{{.FechaCreacion.Format "02/01/2006 15:04"}}
+                </small>
+                <div class="btn-group">
+                    {{if ne .Estado "completada"}}
+                    <form action="/tasks/complete/{{.ID}}" method="POST" class="d-inline me-2">
+                        <button type="submit" class="btn btn-success btn-sm">
+                            <i class="fas fa-check me-1"></i>Completar
+                        </button>
+                    </form>
+                    {{end}}
+                    <a href="/tasks/edit/{{.ID}}" class="btn btn-warning btn-sm me-2">
+                        <i class="fas fa-edit me-1"></i>Editar
+                    </a>
+                    <form action="/tasks/delete/{{.ID}}" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro?')">
+                            <i class="fas fa-trash-alt me-1"></i>Eliminar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     {{else}}
-    <li>No hay tareas disponibles.</li>
+    <div class="alert alert-info d-flex align-items-center">
+        <i class="fas fa-info-circle me-2"></i>
+        No hay tareas disponibles.
+    </div>
     {{end}}
-</ul>
-<a href="/tasks/create">Crear nueva tarea</a>
-{{ end }}
+</div>
+{{end}}
