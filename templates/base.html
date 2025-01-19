@@ -104,6 +104,8 @@
             {{template "create-content" .}}
         {{else if eq .Template "edit"}}
             {{template "edit-content" .}}
+        {{else if eq .Template "detalle"}}
+            {{template "detalle-content" .}}
         {{end}}
     </main>
 

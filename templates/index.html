@@ -2,7 +2,6 @@
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="display-5 fw-bold"><i class="fas fa-tasks me-2"></i>Lista de Tareas</h1>
-        <a href="/tasks/create" class="btn btn-primary"><i class="fas fa-plus me-2"></i>Nueva Tarea</a>
     </div>
     
     {{range .Tareas}}
@@ -10,8 +9,10 @@
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
-                    <h5 class="card-title fw-bold">{{.Titulo}}</h5>
-                    <p class="card-text text-muted">{{.Descripcion}}</p>
+                    <a href="/tasks/{{.ID}}" class="text-decoration-none text-dark">
+                        <h5 class="card-title fw-bold">{{.Titulo}}</h5>
+                        <p class="card-text text-muted">{{.Descripcion}}</p>
+                    </a>
                 </div>
                 <span class="badge bg-{{if eq .Estado "completada"}}success{{else}}warning{{end}} rounded-pill">
                     <i class="fas {{if eq .Estado "completada"}}fa-check-circle{{else}}fa-clock{{end}} me-1"></i>

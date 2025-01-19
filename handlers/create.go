@@ -10,7 +10,6 @@ import (
 )
 
 func CreateFormHandler(c *gin.Context) {
-	// Renderiza la plantilla base, pero en este caso cargamos el formulario de creación
 	c.HTML(http.StatusOK, "base.html", gin.H{
 		"Title":    "Crear Tarea",
 		"Template": "create",
@@ -23,7 +22,6 @@ func CreateHandler(c *gin.Context) {
 	descripcion := c.PostForm("descripcion")
 	estado := c.DefaultPostForm("estado", "pendiente")
 
-	// Inserta los datos en la base de datos (asegúrate de validar los datos).
 	_, err := db.DB.Exec("INSERT INTO tareas (titulo, descripcion, estado, fecha_creacion) VALUES (?, ?, ?, ?)",
 		titulo, descripcion, estado, time.Now())
 	if err != nil {

@@ -39,6 +39,7 @@ func main() {
 	r.POST("/tasks/update/:id", handlers.UpdateHandler)
 	r.POST("/tasks/delete/:id", handlers.DeleteHandler)
 	r.POST("/tasks/complete/:id", handlers.CompleteHandler)
+	r.GET("/tasks/:id", handlers.DetalleHandler)
 
 	// Servir archivos estáticos si los hay
 	r.Static("/static", "./static")
