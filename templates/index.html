@@ -1,18 +1,81 @@
 {{define "index-content"}}
+<style>
+    .category-badge {
+        padding: 0.5em 1em;
+        border-radius: 15px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    .cat-primary { background-color: #007bff; color: white; }
+    .cat-success { background-color: #28a745; color: white; }
+    .cat-warning { background-color: #ffc107; color: black; }
+    .cat-danger { background-color: #dc3545; color: white; }
+    .cat-info { background-color: #17a2b8; color: white; }
+    .cat-purple { background-color: #6f42c1; color: white; }
+    .cat-pink { background-color: #e83e8c; color: white; }
+    .cat-orange { background-color: #fd7e14; color: white; }
+
+    .btn-outline-primary:hover { background-color: #007bff; color: white; }
+    .btn-outline-success:hover { background-color: #28a745; color: white; }
+    .btn-outline-warning:hover { background-color: #ffc107; color: black; }
+    .btn-outline-danger:hover { background-color: #dc3545; color: white; }
+    .btn-outline-info:hover { background-color: #17a2b8; color: white; }
+    .btn-outline-purple:hover { background-color: #6f42c1; color: white; }
+    .btn-outline-pink:hover { background-color: #e83e8c; color: white; }
+    .btn-outline-orange:hover { background-color: #fd7e14; color: white; }
+
+    .task-card {
+        transition: all 0.3s ease;
+        border: none !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .task-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .btn-group .btn {
+        border-radius: 20px;
+        margin: 0 2px;
+        transition: all 0.3s ease;
+    }
+</style>
+
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="display-5 fw-bold"><i class="fas fa-tasks me-2"></i>Lista de Tareas</h1>
+        <a href="/tasks/create" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Nueva Tarea
+        </a>
+    </div>
+
+    <div class="mb-4">
+        <div class="btn-group">
+            <a href="/" class="btn {{if not .CategoriaActual}}btn-primary{{else}}btn-outline-primary{{end}}">
+                <i class="fas fa-layer-group me-1"></i>Todas
+            </a>
+            {{range .Categorias}}
+            <a href="/?categoria={{.ID}}" 
+                class="btn {{if eq (printf "%d" .ID) $.CategoriaActual}}cat-{{.Color}}{{else}}btn-outline-{{.Color}}{{end}}">
+                <i class="fas fa-tag me-1"></i>{{.Nombre}}
+            </a>
+            {{end}}
+        </div>
     </div>
     
+    <!-- Task List -->
     {{range .Tareas}}
-    <div class="card mb-3 border-0">
+    <div class="card mb-3 task-card">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
                     <a href="/tasks/{{.ID}}" class="text-decoration-none text-dark">
-                        <h5 class="card-title fw-bold">{{.Titulo}}</h5>
-                        <p class="card-text text-muted">{{.Descripcion}}</p>
+                        <h5 class="card-title fw-bold mb-2">{{.Titulo}}</h5>
+                        <p class="card-text text-muted mb-3">{{.Descripcion}}</p>
                     </a>
+                    <span class="category-badge cat-{{.CategoriaColor}}">
+                        <i class="fas fa-tag me-1"></i>{{.CategoriaNombre}}
+                    </span>
                 </div>
                 <span class="badge bg-{{if eq .Estado "completada"}}success{{else}}warning{{end}} rounded-pill">
                     <i class="fas {{if eq .Estado "completada"}}fa-check-circle{{else}}fa-clock{{end}} me-1"></i>

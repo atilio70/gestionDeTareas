@@ -5,29 +5,34 @@ import (
 	"log"
 	"task-manager-api/db"
 	"task-manager-api/handlers"
+	"text/template"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// Inicializar la base de datos
 	db.InitDB()
 
-	// Crear una nueva instancia del router de Gin
 	r := gin.Default()
+
+	r.SetFuncMap(template.FuncMap{
+		"deref": func(i *int) int {
+			if i == nil {
+				return 0
+			}
+			return *i
+		},
+	})
 
 	r.LoadHTMLGlob("templates/*")
 
-	// Configurar el modo de Gin para debug
 	gin.SetMode(gin.DebugMode)
 
-	// Middleware para debug
 	r.Use(func(c *gin.Context) {
 		fmt.Printf("Request: %s %s\n", c.Request.Method, c.Request.URL.Path)
 		c.Next()
 	})
 
-	// Cargar las plantillas HTML - Fix: remove return value assignment
 	r.LoadHTMLGlob("templates/*")
 	fmt.Println("Templates loaded successfully")
 
@@ -40,8 +45,11 @@ func main() {
 	r.POST("/tasks/delete/:id", handlers.DeleteHandler)
 	r.POST("/tasks/complete/:id", handlers.CompleteHandler)
 	r.GET("/tasks/:id", handlers.DetalleHandler)
+	r.GET("/categorias", handlers.ListCategoriasHandler)
+	r.GET("/categorias/create", handlers.GetCategoriasFormHandler)
+	r.POST("/categories/create", handlers.CreateCategoriaHandler)
 
-	// Servir archivos estáticos si los hay
+	// Servir archivos estáticos
 	r.Static("/static", "./static")
 
 	fmt.Println("Servidor iniciando en http://localhost:8080")

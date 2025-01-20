@@ -10,26 +10,34 @@ import (
 )
 
 func CreateFormHandler(c *gin.Context) {
+	categorias, err := GetCategorias()
+	if err != nil {
+		log.Printf("Error al obtener categorías: %v", err)
+	}
+
 	c.HTML(http.StatusOK, "base.html", gin.H{
-		"Title":    "Crear Tarea",
-		"Template": "create",
+		"Title":      "Crear Tarea",
+		"Template":   "create",
+		"Categorias": categorias,
 	})
 }
 
 func CreateHandler(c *gin.Context) {
-	// Aquí obtienes los datos del formulario y creas la tarea.
 	titulo := c.PostForm("titulo")
 	descripcion := c.PostForm("descripcion")
 	estado := c.DefaultPostForm("estado", "pendiente")
+	categoriaID := c.PostForm("categoria_id")
 
-	_, err := db.DB.Exec("INSERT INTO tareas (titulo, descripcion, estado, fecha_creacion) VALUES (?, ?, ?, ?)",
-		titulo, descripcion, estado, time.Now())
+	_, err := db.DB.Exec(`
+        INSERT INTO tareas (titulo, descripcion, estado, categoria_id, fecha_creacion) 
+        VALUES (?, ?, ?, ?, ?)`,
+		titulo, descripcion, estado, categoriaID, time.Now())
+
 	if err != nil {
 		log.Printf("Error al crear la tarea: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "No se pudo crear la tarea"})
 		return
 	}
 
-	// Redirige al usuario de vuelta a la página principal después de crear la tarea
 	c.Redirect(http.StatusFound, "/")
 }

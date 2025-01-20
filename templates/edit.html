@@ -2,24 +2,45 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card border-0">
+            <div class="card border-0 shadow-sm">
                 <div class="card-header bg-warning">
                     <h1 class="h4 mb-0"><i class="fas fa-edit me-2"></i>Editar Tarea</h1>
                 </div>
                 <div class="card-body p-4">
                     <form action="/tasks/update/{{.Tarea.ID}}" method="POST">
                         <div class="mb-4">
-                            <label for="titulo" class="form-label fw-bold"><i class="fas fa-heading me-2"></i>Título:</label>
+                            <label for="titulo" class="form-label fw-bold">
+                                <i class="fas fa-heading me-2"></i>Título:
+                            </label>
                             <input type="text" class="form-control form-control-lg" id="titulo" name="titulo" value="{{.Tarea.Titulo}}" required>
                         </div>
 
                         <div class="mb-4">
-                            <label for="descripcion" class="form-label fw-bold"><i class="fas fa-align-left me-2"></i>Descripción:</label>
+                            <label for="descripcion" class="form-label fw-bold">
+                                <i class="fas fa-align-left me-2"></i>Descripción:
+                            </label>
                             <textarea class="form-control" id="descripcion" name="descripcion" rows="4" required>{{.Tarea.Descripcion}}</textarea>
                         </div>
 
                         <div class="mb-4">
-                            <label for="estado" class="form-label fw-bold"><i class="fas fa-tasks me-2"></i>Estado:</label>
+                            <label for="categoria_id" class="form-label fw-bold">
+                                <i class="fas fa-tag me-2"></i>Categoría:
+                            </label>
+                            <select name="categoria_id" id="categoria_id" class="form-select form-select-lg">
+                                <option value="">Sin categoría</option>
+                                {{range .Categorias}}
+                                    {{/* Convert both values to int for comparison */}}
+                                    <option value="{{.ID}}" {{if and $.Tarea.CategoriaID (eq .ID (deref $.Tarea.CategoriaID))}}selected{{end}}>
+                                        {{.Nombre}}
+                                    </option>
+                                {{end}}
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="estado" class="form-label fw-bold">
+                                <i class="fas fa-tasks me-2"></i>Estado:
+                            </label>
                             <select name="estado" id="estado" class="form-select form-select-lg">
                                 <option value="pendiente" {{if eq .Tarea.Estado "pendiente"}}selected{{end}}>⏳ Pendiente</option>
                                 <option value="completada" {{if eq .Tarea.Estado "completada"}}selected{{end}}>✅ Completada</option>

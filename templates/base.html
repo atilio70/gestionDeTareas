@@ -106,7 +106,9 @@
             {{template "edit-content" .}}
         {{else if eq .Template "detalle"}}
             {{template "detalle-content" .}}
-        {{end}}
+        {{else if eq .Template "categoria"}}
+            {{template "categoria-content" .}}
+    {{end}}
     </main>
 
     <footer class="bg-white py-4 mt-5">

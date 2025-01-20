@@ -1,0 +1,41 @@
+{{define "categoria-content"}}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h1 class="h4 mb-0">
+            <i class="fas fa-tag me-2"></i>Crear Nueva Categoría
+          </h1>
+        </div>
+        <div class="card-body p-4">
+          <form action="/categories/create" method="POST">
+            <div class="mb-4">
+              <label for="nombre" class="form-label fw-bold">
+                <i class="fas fa-font me-2"></i>Nombre de la Categoría:
+              </label>
+              <input
+                type="text"
+                class="form-control form-control-lg"
+                id="nombre"
+                name="nombre"
+                required
+                placeholder="Ej: Trabajo, Estudio, Personal..."
+              />
+            </div>
+
+            <div class="d-grid gap-3">
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-save me-2"></i>Crear Categoría
+              </button>
+              <a href="/" class="btn btn-secondary btn-lg">
+                <i class="fas fa-arrow-left me-2"></i>Volver al inicio
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{end}}
